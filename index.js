@@ -22,11 +22,17 @@ client.on("ready", function() {
 });
 
 client.on("message", function(msg) {
+	var parse = cmdsplit(msg.content);
+
+	if (parse.indexOf(".logs") != -1) {
+		msg.channel.send(":file_folder: **Logs Build**: <http://files.v04.maniaplanet.com/setups/ManiaPlanetLogs.zip>");
+		return;
+	}
+
 	if (!msg.content.startsWith(".")) {
 		return;
 	}
 
-	var parse = cmdsplit(msg.content);
 	if (parse[0] == ".tracking") {
 		var ret = "We are currently tracking " + config.announcers.length + " files:\n\n";
 
@@ -37,7 +43,7 @@ client.on("message", function(msg) {
 
 		msg.channel.send(ret);
 
-	} else if (parse[0] == ".link" && parse.length == 2) {
+	} else if (parse[0] == ".file" && parse.length == 2) {
 		var query = parse[1].toLowerCase();
 		var ret = "";
 		for (var i = 0; i < config.announcers.length; i++) {
