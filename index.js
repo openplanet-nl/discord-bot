@@ -79,7 +79,7 @@ function checkAnnouncer(index)
 		if (announcer.lastKnown != "" && announcer.lastKnown != modified) {
 			console.log(announcer.name + " has been updated! New date: " + modified);
 
-			client.channels.get("id", announcer.channel).send(":warning: **New update!** " + announcer.name + " is now at *" + modified + "*: <" + announcer.url + ">");
+			client.channels.get(announcer.channel).send(":warning: **New update!** " + announcer.name + " is now at *" + modified + "*: <" + announcer.url + ">");
 
 			//TODO: Automatically download the file here
 		}
@@ -94,6 +94,12 @@ function checkAnnouncer(index)
 	} else {
 		req = http.request(options, callback);
 	}
+	req.on("error", function() {
+		console.log("Error while trying to get latest version for \"" + announcer.name + "\"");
+	});
+	req.on("timeout", function() {
+		console.log("Timeout while trying to get latest version for \"" + announcer.name + "\"");
+	});
 	req.end();
 }
 
