@@ -76,7 +76,7 @@ function checkAnnouncer(index)
 	var callback = function(res) {
 		var modified = res.headers["last-modified"];
 
-		if (announcer.lastKnown != "" && announcer.lastKnown != modified) {
+		if (modified !== undefined && announcer.lastKnown != "" && announcer.lastKnown != modified) {
 			console.log(announcer.name + " has been updated! New date: " + modified);
 
 			client.channels.get(announcer.channel).send(":warning: **New update!** " + announcer.name + " is now at *" + modified + "*: <" + announcer.url + ">");
