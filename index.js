@@ -9,6 +9,7 @@ var fs = require("fs");
 var client = new Discord.Client();
 
 var config = JSON.parse(fs.readFileSync("config.json"));
+var mpdocs = JSON.parse(fs.readFileSync("data/Openplanet.json"));
 
 for (var i = 0; i < config.announcers.length; i++) {
 	config.announcers[i].lastKnown = "";
@@ -32,6 +33,8 @@ client.on("message", function(msg) {
 	if (!msg.content.startsWith(".")) {
 		return;
 	}
+
+	console.log("Command from " + msg.member.user.username + ": " + msg.content);
 
 	if (parse[0] == ".tracking") {
 		var ret = "We are currently tracking " + config.announcers.length + " files:\n\n";
@@ -59,6 +62,48 @@ client.on("message", function(msg) {
 			ret = "Nothing found :(";
 		}
 		msg.channel.send(ret);
+
+	} else if (parse[0] == ".class" && parse.length == 2) {
+		var query = parse[1].toLowerCase();
+
+		var ret = "Results:";
+		var numResults = 0;
+
+		for (var ns in mpdocs.ns) {
+			for (var c in mpdocs.ns[ns]) {
+				if (c.toLowerCase().indexOf(query) == -1) {
+					continue;
+				}
+
+				if (++numResults > 5) {
+					continue;
+				}
+
+				var cc = mpdocs.ns[ns][c];
+
+				ret += "\n```cpp\n";
+				ret += "class " + c;
+				if (cc.p) {
+					ret += " : " + cc.p;
+				}
+				ret += ";";
+				if (cc.d && cc.d.d) {
+					ret += "\n/* " + cc.d.d + " */";
+				}
+				ret += "``` <https://openplanet.nl/" + c + ">";
+			}
+		}
+
+		if (numResults == 0) {
+			ret = "Nothing found :(";
+		} else if (numResults > 5) {
+			ret += "\n" + numResults + " more: <https://openplanet.nl/mpdocs/search?q=" + query + ">";
+		}
+
+		msg.channel.send(ret);
+
+	} else if (parse[0] == ".classhistory") {
+		msg.channel.send("https://github.com/codecat/maniaplanet4-classes/commits/master");
 	}
 });
 
@@ -79,9 +124,19 @@ function checkAnnouncer(index)
 		if (modified !== undefined && announcer.lastKnown != "" && announcer.lastKnown != modified) {
 			console.log(announcer.name + " has been updated! New date: " + modified);
 
-			client.channels.get(announcer.channel).send(":warning: **New update!** " + announcer.name + " is now at *" + modified + "*: <" + announcer.url + ">");
+			var msg = ":warning: **New update!** " + announcer.name + " is now at *" + modified + "*: <" + announcer.url + ">";
 
-			//TODO: Automatically download the file here
+			for (var i = 0; i < announcer.channels.length; i++) {
+				var channelId = announcer.channels[i];
+				var channel = client.channels.get(channelId);
+				if (!channel) {
+					console.log("WARNING: Couldn't find Discord channel with ID " + channelId + "!");
+					continue;
+				}
+				channel.send(msg);
+			}
+
+			//TODO: Automatically download the file here?
 		}
 
 		config.announcers[index].lastKnown = modified;
