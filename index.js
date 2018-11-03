@@ -22,6 +22,10 @@ client.on("ready", function() {
 	checkAllAnnouncers();
 });
 
+client.on("error", function(err) {
+	console.log("Discord error: ", err);
+});
+
 client.on("message", function(msg) {
 	var parse = cmdsplit(msg.content);
 
@@ -75,7 +79,7 @@ client.on("message", function(msg) {
 					continue;
 				}
 
-				if (++numResults > 5) {
+				if (++numResults > 2) {
 					continue;
 				}
 
@@ -96,7 +100,7 @@ client.on("message", function(msg) {
 
 		if (numResults == 0) {
 			ret = "Nothing found :(";
-		} else if (numResults > 5) {
+		} else if (numResults > 2) {
 			ret += "\n" + numResults + " more: <https://openplanet.nl/mpdocs/search?q=" + query + ">";
 		}
 
@@ -139,7 +143,10 @@ function checkAnnouncer(index)
 			//TODO: Automatically download the file here?
 		}
 
-		config.announcers[index].lastKnown = modified;
+		if (modified !== undefined) {
+			config.announcers[index].lastKnown = modified;
+		}
+
 		console.log(announcer.name + ": " + modified);
 	};
 
