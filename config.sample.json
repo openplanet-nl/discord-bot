@@ -1,0 +1,23 @@
+{
+    "announcers": [
+        {
+            "name": "Trackmania Dedicated",
+            "url": "http://files.v04.maniaplanet.com/server/TrackmaniaServer_Latest.zip",
+            "channels" : [
+                "662045195617042465",
+                "352504419121758219"
+            ],
+            "mentions": "<@&673188341100970004> <@330030648456642562>"
+        },
+        {
+            "name": "ManiaPlanet Setup",
+            "url": "http://files.v04.maniaplanet.com/setups/Maniaplanet_Setup.exe",
+            "channels" : [
+                "662045195617042465",
+                "352504419121758219"
+            ],
+            "mentions": "<@&276086231803101186> <@104333671149895680>"
+        }
+    ],
+    "discordToken": "TOKEN HERE"
+}
