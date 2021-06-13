@@ -4,19 +4,29 @@
             "name": "Trackmania Dedicated",
             "url": "http://files.v04.maniaplanet.com/server/TrackmaniaServer_Latest.zip",
             "channels" : [
-                "662045195617042465",
-                "352504419121758219"
-            ],
-            "mentions": "<@&673188341100970004> <@330030648456642562>"
+                {
+                    "channelId": "662045195617042465",
+                    "header": "Oh something new! Might mention you, <@104333671149895680>"
+                },
+                {
+                    "channelId": "352504419121758219",
+                    "header": "Oh a new update! I'll mention this role: <@&673188341100970004>"
+                }
+            ]
         },
         {
             "name": "ManiaPlanet Setup",
             "url": "http://files.v04.maniaplanet.com/setups/Maniaplanet_Setup.exe",
             "channels" : [
-                "662045195617042465",
-                "352504419121758219"
-            ],
-            "mentions": "<@&276086231803101186> <@104333671149895680>"
+                {
+                    "channelId": "662045195617042465",
+                    "header": "Oh something new! Might mention you, <@330030648456642562>"
+                },
+                {
+                    "channelId": "352504419121758219",
+                    "header": "Oh a new update! I'll mention this role: <@&673188341100970004>"
+                }
+            ]
         }
     ],
     "discordToken": "TOKEN HERE"

@@ -127,16 +127,15 @@ function checkAnnouncer(index)
 
 		if (modified !== undefined && announcer.lastKnown != "" && announcer.lastKnown != modified) {
 			console.log(announcer.name + " has been updated! New date: " + modified);
-
-			var msg = announcer.mentions + "\n:warning: **New update!** " + announcer.name + " is now at *" + modified + "*: <" + announcer.url + ">";
-
 			for (var i = 0; i < announcer.channels.length; i++) {
-				var channelId = announcer.channels[i];
-				var channel = client.channels.get(channelId);
+				var chan = announcer.channels[i];
+				var channel = client.channels.get(chan.channelId);
 				if (!channel) {
-					console.log("WARNING: Couldn't find Discord channel with ID " + channelId + "!");
+					console.log("WARNING: Couldn't find Discord channel with ID " + chan.channelId + "!");
 					continue;
 				}
+                var msg = chan.header+"\n";
+                msg += ":warning: **New update!** " + announcer.name + " is now at *" + modified + "*: <" + announcer.url + ">";
 				channel.send(msg);
 			}
 
