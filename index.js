@@ -128,7 +128,7 @@ function checkAnnouncer(index)
 		if (modified !== undefined && announcer.lastKnown != "" && announcer.lastKnown != modified) {
 			console.log(announcer.name + " has been updated! New date: " + modified);
 
-			var msg = ":warning: **New update!** " + announcer.name + " is now at *" + modified + "*: <" + announcer.url + ">";
+			var msg = announcer.mentions + "\n:warning: **New update!** " + announcer.name + " is now at *" + modified + "*: <" + announcer.url + ">";
 
 			for (var i = 0; i < announcer.channels.length; i++) {
 				var channelId = announcer.channels[i];
